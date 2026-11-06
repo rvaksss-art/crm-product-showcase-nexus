@@ -80,8 +80,12 @@ body:before { background:linear-gradient(155deg,#143a3040,#0c161857),var(--mount
              linear-gradient(0deg,transparent,#000 12% 85%,transparent),
              linear-gradient(90deg,transparent,#000 14% 86%,transparent);
   mask-composite:intersect;
+  filter:url(#peak-silhouette) saturate(.75);
 }
-</style></head><body><header class="top"><a class="brand" href="#top" aria-label="NEXUS — к началу"><svg class="nexus-orbit-mark" viewBox="-8 -10 78 78" focusable="false" aria-hidden="true">
+.chapterlink:is([href="#overview"],[href="#problem"],[href="#result"]):is([aria-current=true],:hover,:focus-visible) .route-peak {
+  filter:url(#peak-silhouette) sepia(1) saturate(2.4) drop-shadow(0 0 4px #efbf7477);
+}
+</style></head><body><svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;pointer-events:none"><defs><filter id="peak-silhouette" x="-10%" y="-10%" width="120%" height="120%"><feComponentTransfer><feFuncA type="gamma" amplitude="1" exponent="3.2" offset="0"/></feComponentTransfer></filter></defs></svg><header class="top"><a class="brand" href="#top" aria-label="NEXUS — к началу"><svg class="nexus-orbit-mark" viewBox="-8 -10 78 78" focusable="false" aria-hidden="true">
 <defs>
 <radialGradient id="orbit-amber" cx="30%" cy="23%" r="80%"><stop stop-color="#fff8d9"/><stop offset=".35" stop-color="#f5d17d"/><stop offset="1" stop-color="#bc762c"/></radialGradient>
 <linearGradient id="orbit-cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c9fff2"/><stop offset=".48" stop-color="#48dacd"/><stop offset="1" stop-color="#16899e"/></linearGradient>
