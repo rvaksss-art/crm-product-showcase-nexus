@@ -46,8 +46,15 @@ body:before { background:linear-gradient(155deg,#143a3040,#0c161857),var(--mount
 .controls button { color:var(--case-text); border-color:#9ed5bd55; }
 .card[data-resting] { will-change:auto; }
 </style><style id="case-rim-and-peaks">
-.hero {
-  background:linear-gradient(145deg,#143a3036,#091b1e54),var(--mountain) center / cover;
+
+/* One fixed landscape for the cover and the chapter rail. */
+body { isolation:isolate; }
+body:before { background:linear-gradient(145deg,#143a3036,#091b1e54),var(--mountain) center / cover; }
+.hero,.stage { background:transparent; }
+.stage:before {
+  background:linear-gradient(#9ed5bd0b 1px,transparent 1px),linear-gradient(90deg,#9ed5bd0b 1px,transparent 1px),
+             linear-gradient(150deg,rgba(9,26,24,.75),rgba(7,23,22,.84));
+  background-size:64px 64px,64px 64px,cover;
 }
 /* The diagram panels share the CV surface; the existing grid is a separate layer. */
 .card.open .atlas-scene.optical-scene,
@@ -59,20 +66,25 @@ body:before { background:linear-gradient(155deg,#143a3040,#0c161857),var(--mount
 .card.open .atlas-scene.optical-scene:before {
   background-image:linear-gradient(#9ed5bd12 1px,transparent 1px),linear-gradient(90deg,#9ed5bd12 1px,transparent 1px);
 }
-.card.open,.card.open:has(.scene-2) {
-  border-color:#ae915e #ae915e #ae915e #7cab94;
+@property --case-rim-angle {
+  syntax:"<angle>";inherits:false;initial-value:0deg;
 }
-.card.open:before {
-  content:"";position:absolute;inset:0;padding:1px;border-radius:inherit;z-index:8;pointer-events:none;
-  background:linear-gradient(110deg,#95774e 20%,#c4a576 40%,#f5deb1 50%,#c4a576 60%,#95774e 80%) 0 0 / 240% 100%;
+.card,.card.open,.card.open:has(.scene-2) { border-color:#94b4a64d; }
+.card:before,.card.open:before {
+  content:"";position:absolute;inset:0;z-index:8;pointer-events:none;
+  border-radius:inherit;padding:2px;
+  background:conic-gradient(from var(--case-rim-angle),#eac780 0deg,#ffdfa0 24deg,#b09461 76deg,#78b99c 118deg,#b4edd0 168deg,#5f9c85 225deg,#ae9162 285deg,#eac780 360deg);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;mask-composite:exclude;clip-path:inset(0 0 0 1px);
+  -webkit-mask-composite:xor;mask-composite:exclude;
 }
-@media(prefers-reduced-motion:no-preference){
-  .card.open:before{animation:case-rim-sheen 7s ease-in-out infinite alternate}
-  @keyframes case-rim-sheen{to{background-position:100% 0}}
+@media(prefers-reduced-motion:no-preference) {
+  .card:before,.card.open:before { animation:case-rim-orbit 6s linear infinite; }
+  @keyframes case-rim-orbit { to { --case-rim-angle:360deg; } }
 }
+/* Map the six differently coloured illustrations to the same luminous gold. */
+.chapterlink { --chapter-glow:url(#chapter-gold) drop-shadow(0 0 4px #ffba487d); }
+.progressNav .chapterlink:is(:hover,:focus-visible,[aria-current=true]) .route-peak { filter:var(--chapter-glow); }
 /* Feather the three rasters with broad halos, in the image's own aspect ratio. */
 .chapterlink:is([href="#overview"],[href="#problem"],[href="#result"]) .route-peak {
   width:auto;aspect-ratio:192 / 86;max-width:100%;left:50%;transform:translateX(-50%);
@@ -83,9 +95,11 @@ body:before { background:linear-gradient(155deg,#143a3040,#0c161857),var(--mount
   filter:url(#peak-silhouette) saturate(.75);
 }
 .chapterlink:is([href="#overview"],[href="#problem"],[href="#result"]):is([aria-current=true],:hover,:focus-visible) .route-peak {
-  filter:url(#peak-silhouette) sepia(1) saturate(2.4) drop-shadow(0 0 4px #efbf7477);
+  filter:url(#peak-silhouette) var(--chapter-glow);
 }
-</style></head><body><svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;pointer-events:none"><defs><filter id="peak-silhouette" x="-10%" y="-10%" width="120%" height="120%"><feComponentTransfer><feFuncA type="gamma" amplitude="1" exponent="3.2" offset="0"/></feComponentTransfer></filter></defs></svg><header class="top"><a class="brand" href="#top" aria-label="NEXUS — к началу"><svg class="nexus-orbit-mark" viewBox="-8 -10 78 78" focusable="false" aria-hidden="true">
+</style></head><body><svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;pointer-events:none"><defs><filter id="chapter-gold" color-interpolation-filters="sRGB">
+  <feColorMatrix type="matrix" values=".29 .77 .12 0 .48   .25 .67 .10 0 .18   .13 .36 .055 0 .005   0 0 0 1 0"/>
+</filter><filter id="peak-silhouette" x="-10%" y="-10%" width="120%" height="120%"><feComponentTransfer><feFuncA type="gamma" amplitude="1" exponent="3.2" offset="0"/></feComponentTransfer></filter></defs></svg><header class="top"><a class="brand" href="#top" aria-label="NEXUS — к началу"><svg class="nexus-orbit-mark" viewBox="-8 -10 78 78" focusable="false" aria-hidden="true">
 <defs>
 <radialGradient id="orbit-amber" cx="30%" cy="23%" r="80%"><stop stop-color="#fff8d9"/><stop offset=".35" stop-color="#f5d17d"/><stop offset="1" stop-color="#bc762c"/></radialGradient>
 <linearGradient id="orbit-cyan" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c9fff2"/><stop offset=".48" stop-color="#48dacd"/><stop offset="1" stop-color="#16899e"/></linearGradient>
