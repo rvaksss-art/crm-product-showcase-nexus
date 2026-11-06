@@ -97,6 +97,23 @@ body:before { background:linear-gradient(145deg,#143a3036,#091b1e54),var(--mount
 .chapterlink:is([href="#overview"],[href="#problem"],[href="#result"]):is([aria-current=true],:hover,:focus-visible) .route-peak {
   filter:url(#peak-silhouette) var(--chapter-glow);
 }
+</style><style id="chapter-finish">
+.top,.paper .top { background:transparent; backdrop-filter:none; }
+.card .cardCopy h3 { color:#e0c89e; }
+@media (min-width:681px) {
+  .card,.card.open,.card.open:has(.scene-2) { border:0; }
+  .card.open .atlas-scene.optical-scene { box-shadow:none; }
+  .card:before,.card.open:before {
+    padding:1px;
+    background:conic-gradient(from var(--case-rim-angle),
+      #9b7847 0deg,#d9b578 28deg,#fff0c4 48deg,#c39d61 65deg,
+      #675b40 100deg,#518978 134deg,#b9ffdf 200deg,#689c87 228deg,
+      #426458 275deg,#ac8b54 320deg,#9b7847 360deg);
+  }
+}
+@media (min-width:681px) and (prefers-reduced-motion:no-preference) {
+  .card:before,.card.open:before { animation-duration:4s; }
+}
 </style></head><body><svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;pointer-events:none"><defs><filter id="chapter-gold" color-interpolation-filters="sRGB">
   <feColorMatrix type="matrix" values=".29 .77 .12 0 .48   .25 .67 .10 0 .18   .13 .36 .055 0 .005   0 0 0 1 0"/>
 </filter><filter id="peak-silhouette" x="-10%" y="-10%" width="120%" height="120%"><feComponentTransfer><feFuncA type="gamma" amplitude="1" exponent="3.2" offset="0"/></feComponentTransfer></filter></defs></svg><header class="top"><a class="brand" href="#top" aria-label="NEXUS — к началу"><svg class="nexus-orbit-mark" viewBox="-8 -10 78 78" focusable="false" aria-hidden="true">
