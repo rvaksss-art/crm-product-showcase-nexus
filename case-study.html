@@ -248,7 +248,7 @@ B.style.zIndex=o>0?8:1;const b=ease((o-.28)/.68);B.style.setProperty("--t",o),B.
   if (dialog.open || event.altKey || event.ctrlKey || event.metaKey) return;
   const isSpace = event.code === "Space" || event.key === " ";
   // Let focused controls keep their normal keyboard activation.
-  if (isSpace && event.target instanceof Element &&
+  if (event.target instanceof Element &&
       event.target.closest('a,button,input,textarea,select,summary,[contenteditable]:not([contenteditable="false"]),[role="button"],[role="textbox"]')) return;
   const forward = ["ArrowRight", "ArrowDown", "PageDown"].includes(event.key) ||
                   (isSpace && !event.shiftKey);
@@ -263,7 +263,7 @@ B.style.zIndex=o>0?8:1;const b=ease((o-.28)/.68);B.style.setProperty("--t",o),B.
   const next = clamp(nearest + (forward ? 1 : -1), 0, stops.length - 1);
   if (next !== nearest) scrollOneStop(stops[next]);
 });
-let wheelGoal=null,wheelTime=-1e3;function cancelWheel(){wheelMotion&&(cancelAnimationFrame(wheelMotion.frame),wheelMotion=null)}// The endpoint uses the same stops as wheel, touch and keyboard navigation.
+let wheelGoal=null,wheelTime=-1e3,wheelDirection=0;function cancelWheel(){wheelMotion&&(cancelAnimationFrame(wheelMotion.frame),wheelMotion=null)}// The endpoint uses the same stops as wheel, touch and keyboard navigation.
 const finale = (() => {
   const screen = document.querySelector('.ending');
   const copy = screen.querySelector('.endText');
@@ -368,7 +368,28 @@ const finale = (() => {
   return {leave,active:()=>state!=='idle'};
 })();
 
-function scrollOneStop(A){if(A>0)prepareChapterMedia();if(transitionBusy)return;const a=chapters.findIndex((I,n)=>Math.abs(A-(geo.top+geo.unit*(n+.85)))<2);if(a>=0&&scrollY>=geo.top-2){jump(a);return}cancelWheel(),++chapterRevision,chapterReveal?.cancel();const t=scrollY,f=performance.now();if(Math.abs(A-t)<2)return;if(reduce.matches){window.scrollTo({top:A,behavior:"instant"});return}const e={frame:0};wheelMotion=e;function r(I){if(wheelMotion!==e)return;const n=clamp((I-f)/650),i=n*n*(3-2*n);window.scrollTo({top:mix(t,A,i),behavior:"instant"}),frame&&cancelAnimationFrame(frame),draw(),n<1&&!reduce.matches?e.frame=requestAnimationFrame(r):(window.scrollTo({top:A,behavior:"instant"}),displayY=scrollY,wheelMotion=null,requestDraw())}e.frame=requestAnimationFrame(r)}window.addEventListener("wheel",A=>{if(A.ctrlKey||dialog.open||Math.abs(A.deltaX)>Math.abs(A.deltaY)||!A.deltaY)return;if(A.target.closest(".cardCopy")&&A.target.closest(".cardCopy").scrollHeight>A.target.closest(".cardCopy").clientHeight+2){let I=A.target.closest(".cardCopy");if(A.deltaY>0&&I.scrollTop+I.clientHeight<I.scrollHeight-1||A.deltaY<0&&I.scrollTop>0)return}A.preventDefault();let a=performance.now(),t=a-wheelTime;if(wheelTime=a,wheelMotion||t<160)return;let f=routeStops(),e=f.reduce((I,n,i)=>Math.abs(n-scrollY)<Math.abs(f[I]-scrollY)?i:I,0),r=clamp(e+Math.sign(A.deltaY),0,f.length-1);wheelGoal=r,glide=null,scrollOneStop(f[r])},{passive:!1});let swipe=null;function routeStops(){return[0,geo.top,...chapters.map((A,a)=>geo.top+geo.unit*(a+.85)),$(".ending").offsetTop]}window.addEventListener("touchstart",A=>{if(wheelMotion){swipe=null;return}if(swipe=null,!geo||dialog.open||A.touches.length!==1)return;const a=A.touches[0],t=A.target.closest(".card.open");swipe={card:t&&cards.find(e=>e.el===t&&!e.root.inert),x:a.clientX,y:a.clientY,copy:A.target.closest(".cardCopy"),mode:null,done:!1}},{passive:!0}),window.addEventListener("touchmove",A=>{if(A.touches.length!==1||dialog.open){swipe=null;return}if(!swipe){wheelMotion&&A.cancelable&&A.preventDefault();return}const a=A.touches[0],t=a.clientX-swipe.x,f=a.clientY-swipe.y;if(!swipe.mode){const n=Math.abs(t),i=Math.abs(f);if(Math.max(n,i)<8||Math.max(n,i)<18&&Math.max(n,i)<Math.min(n,i)*1.22)return;const g=swipe.copy,l=g&&(f<0?g.scrollTop+g.clientHeight<g.scrollHeight-2:g.scrollTop>1);swipe.mode=n>i?swipe.card?"choice":"native":l?"native":"chapter"}if(swipe.mode==="native")return;if(A.cancelable&&A.preventDefault(),swipe.mode==="choice"){!swipe.done&&Math.abs(t)>=34&&(swipe.done=!0,swipe.card.root.inert||swipe.card.stepChoice(-Math.sign(t)));return}if(swipe.done||Math.abs(f)<36)return;swipe.done=!0;const e=routeStops(),r=e.reduce((n,i,g)=>Math.abs(i-scrollY)<Math.abs(e[n]-scrollY)?g:n,0),I=clamp(r-Math.sign(f),0,e.length-1);wheelGoal=null,r>0&&r<e.length-1&&I>0&&I<e.length-1&&!reduce.matches?(glide=null,scrollOneStop(Math.round(e[I]))):(glide=null,scrollOneStop(e[I]))},{passive:!1}),window.addEventListener("touchend",()=>{swipe=null},{passive:!0}),window.addEventListener("touchcancel",()=>{swipe=null},{passive:!0});
+// A new gesture replaces the current transition. No deferred gesture queue.
+function interruptScrollTransition(){
+  cancelWheel();
+  ++chapterRevision;
+  if(transitionBusy){
+    cancelFlight();
+    $("#cards").style.opacity="1";
+    transitionBusy=false;
+  }
+  glide=null;
+  displayY=scrollY;
+  last="";
+  cards.forEach(card=>card.renderKey=null);
+  requestDraw();
+}
+// Scrollbar dragging owns the scroll position, including during a reveal.
+window.addEventListener("pointerdown",event=>{
+  if(event.clientX>=document.documentElement.clientWidth && (transitionBusy||wheelMotion)){
+    interruptScrollTransition();
+  }
+},{passive:true});
+function scrollOneStop(A){if(A>0)prepareChapterMedia();const a=chapters.findIndex((I,n)=>Math.abs(A-(geo.top+geo.unit*(n+.85)))<2);if(a>=0&&scrollY>=geo.top-2){jump(a);return}interruptScrollTransition();const t=scrollY,f=performance.now();if(Math.abs(A-t)<2)return;if(reduce.matches){window.scrollTo({top:A,behavior:"instant"});return}const e={frame:0};wheelMotion=e;function r(I){if(wheelMotion!==e)return;const n=clamp((I-f)/650),i=n*n*(3-2*n);window.scrollTo({top:mix(t,A,i),behavior:"instant"}),frame&&cancelAnimationFrame(frame),draw(),n<1&&!reduce.matches?e.frame=requestAnimationFrame(r):(window.scrollTo({top:A,behavior:"instant"}),displayY=scrollY,wheelMotion=null,requestDraw())}e.frame=requestAnimationFrame(r)}window.addEventListener("wheel",A=>{if(A.ctrlKey||dialog.open||Math.abs(A.deltaX)>Math.abs(A.deltaY)||!A.deltaY)return;if(A.target.closest(".cardCopy")&&A.target.closest(".cardCopy").scrollHeight>A.target.closest(".cardCopy").clientHeight+2){let I=A.target.closest(".cardCopy");if(A.deltaY>0&&I.scrollTop+I.clientHeight<I.scrollHeight-1||A.deltaY<0&&I.scrollTop>0)return}A.preventDefault();let a=performance.now(),t=a-wheelTime;const direction=Math.sign(A.deltaY);const sameGesture=t<160&&direction===wheelDirection;wheelTime=a;wheelDirection=direction;if(sameGesture)return;let f=routeStops(),e=f.reduce((I,n,i)=>Math.abs(n-scrollY)<Math.abs(f[I]-scrollY)?i:I,0),r=clamp(e+Math.sign(A.deltaY),0,f.length-1);wheelGoal=r,glide=null,scrollOneStop(f[r])},{passive:!1});let swipe=null;function routeStops(){return[0,geo.top,...chapters.map((A,a)=>geo.top+geo.unit*(a+.85)),$(".ending").offsetTop]}window.addEventListener("touchstart",A=>{if(wheelMotion){swipe=null;return}if(swipe=null,!geo||dialog.open||A.touches.length!==1)return;const a=A.touches[0],t=A.target.closest(".card.open");swipe={card:t&&cards.find(e=>e.el===t&&!e.root.inert),x:a.clientX,y:a.clientY,copy:A.target.closest(".cardCopy"),mode:null,done:!1}},{passive:!0}),window.addEventListener("touchmove",A=>{if(A.touches.length!==1||dialog.open){swipe=null;return}if(!swipe){wheelMotion&&A.cancelable&&A.preventDefault();return}const a=A.touches[0],t=a.clientX-swipe.x,f=a.clientY-swipe.y;if(!swipe.mode){const n=Math.abs(t),i=Math.abs(f);if(Math.max(n,i)<8||Math.max(n,i)<18&&Math.max(n,i)<Math.min(n,i)*1.22)return;const g=swipe.copy,l=g&&(f<0?g.scrollTop+g.clientHeight<g.scrollHeight-2:g.scrollTop>1);swipe.mode=n>i?swipe.card?"choice":"native":l?"native":"chapter"}if(swipe.mode==="native")return;if(A.cancelable&&A.preventDefault(),swipe.mode==="choice"){!swipe.done&&Math.abs(t)>=34&&(swipe.done=!0,swipe.card.root.inert||swipe.card.stepChoice(-Math.sign(t)));return}if(swipe.done||Math.abs(f)<36)return;swipe.done=!0;const e=routeStops(),r=e.reduce((n,i,g)=>Math.abs(i-scrollY)<Math.abs(e[n]-scrollY)?g:n,0),I=clamp(r-Math.sign(f),0,e.length-1);wheelGoal=null,r>0&&r<e.length-1&&I>0&&I<e.length-1&&!reduce.matches?(glide=null,scrollOneStop(Math.round(e[I]))):(glide=null,scrollOneStop(e[I]))},{passive:!1}),window.addEventListener("touchend",()=>{swipe=null},{passive:!0}),window.addEventListener("touchcancel",()=>{swipe=null},{passive:!0});
 
 // Keep below-the-fold artwork out of the first-screen request queue.
 let chapterMediaPrepared=false;
