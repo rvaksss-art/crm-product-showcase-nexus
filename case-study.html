@@ -306,7 +306,8 @@ function draw(){
     card.link.setAttribute('aria-current',String(open));
     card.link.classList.toggle('visited',active>=index);
     card.link.style.setProperty('--fill',active>=index?'1':'0');
-    el.style.visibility=hidden?'hidden':'visible';
+    el.style.display=hidden?'none':'';
+    el.classList.toggle('open',open);
     card.pick.tabIndex=inRange&&!hidden&&!open?0:-1;
     if(card.root)card.root.inert=!open;
     if(hidden)return;
@@ -318,7 +319,6 @@ function draw(){
     el.style.zIndex=open?'8':'1';
     el.style.transform='none';el.toggleAttribute('data-resting',true);
     el.style.setProperty('--t',open?'1':'0');el.style.setProperty('--scene-mix',open?'1':'0');
-    el.classList.toggle('open',open);
     card.face.style.width=card.face.style.height='100%';
     card.copy.style.visibility=open?'visible':'hidden';card.copy.style.opacity=open?'1':'0';
     card.pick.style.display=open?'none':'';
