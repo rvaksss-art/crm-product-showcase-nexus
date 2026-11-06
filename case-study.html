@@ -11,9 +11,10 @@
   --case-line: #a6c7b530;
 }
 body { background: var(--case-bg); font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; }
-body:before { background: var(--case-bg); }
-.hero,.stage,.ending { background-color:var(--case-bg); color:var(--case-text); }
-.hero:after,.stage:before,.ending:after {
+body:before { background:linear-gradient(155deg,#143a3040,#0c161857),var(--mountain) center/cover; }
+.stage,.ending { background-color:var(--case-bg); color:var(--case-text); }
+.hero:after { background:radial-gradient(ellipse at 76% 28%,#80c9a71a,transparent 60%), radial-gradient(ellipse at center,#071d1bcc,transparent 74%),linear-gradient(#0c161809,#0c16182b); }
+.stage:before,.ending:after {
   background: linear-gradient(#9ed5bd06 1px, transparent 1px),linear-gradient(90deg,#9ed5bd06 1px,transparent 1px),
               radial-gradient(ellipse at 66% 45%,#203b3380,transparent 68%),linear-gradient(145deg,#0c1618e0,#0c1618eb);
   background-size:64px 64px,64px 64px,cover,cover;
@@ -21,7 +22,7 @@ body:before { background: var(--case-bg); }
 .top,.paper .top { background:#0c1618f7; color:var(--case-text); border-color:var(--case-line); }
 .top .headnote,.heroFoot .field { color:var(--case-muted); opacity:1; }
 .hero .eyebrow,.galleryIntro .micro { color:var(--case-accent); }
-.hero h1 { font-family:Georgia,"Times New Roman",serif; font-size:clamp(57px,9vw,158px); font-weight:400; letter-spacing:-.045em; }
+
 .hero em,.endText em { color:var(--case-gold); }
 .heroText p,.endText p { color:var(--case-text); line-height:1.6; }
 .galleryIntro,.galleryIntro h2,.card .cardLabel,.card .cardNo,.card .cardCopy * { text-shadow:none; }
@@ -44,6 +45,42 @@ body:before { background: var(--case-bg); }
 .progressNav .chapterlink[aria-current=true] .route-title { color:var(--case-text); background:#23423a; box-shadow:inset 0 0 0 1px #9ed5bd70; }
 .controls button { color:var(--case-text); border-color:#9ed5bd55; }
 .card[data-resting] { will-change:auto; }
+</style><style id="case-rim-and-peaks">
+.hero {
+  background:linear-gradient(145deg,#143a3036,#091b1e54),var(--mountain) center / cover;
+}
+/* The diagram panels share the CV surface; the existing grid is a separate layer. */
+.card.open .atlas-scene.optical-scene,
+.card.open :is(.scene-0,.scene-1).optical-scene {
+  background: radial-gradient(ellipse at 74% 42%,#24463b99,transparent 64%),
+              linear-gradient(125deg,#132724,#0c1618 78%);
+  box-shadow: inset 0 0 0 1px #9ed5bd40;
+}
+.card.open .atlas-scene.optical-scene:before {
+  background-image:linear-gradient(#9ed5bd12 1px,transparent 1px),linear-gradient(90deg,#9ed5bd12 1px,transparent 1px);
+}
+.card.open,.card.open:has(.scene-2) {
+  border-color:#ae915e #ae915e #ae915e #7cab94;
+}
+.card.open:before {
+  content:"";position:absolute;inset:0;padding:1px;border-radius:inherit;z-index:8;pointer-events:none;
+  background:linear-gradient(110deg,#95774e 20%,#c4a576 40%,#f5deb1 50%,#c4a576 60%,#95774e 80%) 0 0 / 240% 100%;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;clip-path:inset(0 0 0 1px);
+}
+@media(prefers-reduced-motion:no-preference){
+  .card.open:before{animation:case-rim-sheen 7s ease-in-out infinite alternate}
+  @keyframes case-rim-sheen{to{background-position:100% 0}}
+}
+/* Feather the three rasters with broad halos, in the image's own aspect ratio. */
+.chapterlink:is([href="#overview"],[href="#problem"],[href="#result"]) .route-peak {
+  width:auto;aspect-ratio:192 / 86;max-width:100%;left:50%;transform:translateX(-50%);
+  mask-image:radial-gradient(ellipse 55% 64% at 50% 53%,#000 48%,#000d 65%,#0005 84%,transparent 100%),
+             linear-gradient(0deg,transparent,#000 12% 85%,transparent),
+             linear-gradient(90deg,transparent,#000 14% 86%,transparent);
+  mask-composite:intersect;
+}
 </style></head><body><header class="top"><a class="brand" href="#top" aria-label="NEXUS — к началу"><svg class="nexus-orbit-mark" viewBox="-8 -10 78 78" focusable="false" aria-hidden="true">
 <defs>
 <radialGradient id="orbit-amber" cx="30%" cy="23%" r="80%"><stop stop-color="#fff8d9"/><stop offset=".35" stop-color="#f5d17d"/><stop offset="1" stop-color="#bc762c"/></radialGradient>
