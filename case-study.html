@@ -449,5 +449,19 @@ chapterMediaObserver.observe(document.querySelector('.film'));
     }catch{/* Keep the painted fallback for an unavailable cover. */}
   }));
   root.classList.add('cover-set-ready');
+  // Low-priority, bounded cache warming; the existing media loader remains authoritative.
+  const firstScene=document.querySelector('.atlas-scene');
+  const pending=[...document.querySelectorAll('.route-peak[data-gallery-src]'),
+    ...firstScene.querySelectorAll('[data-gallery-src],[data-gallery-href]')];
+  const urls=[...new Set(pending.map(el=>el.dataset.gallerySrc||el.dataset.galleryHref))];
+  async function warmNext(){
+    while(urls.length&&!chapterMediaPrepared){
+      const src=urls.shift();
+      await new Promise(resolve=>{const image=new Image();image.fetchPriority='low';image.decoding='async';image.onload=image.onerror=resolve;image.src=src;});
+    }
+  }
+  // Start only after critical artwork has completed; never hold rendering or input.
+  decoded('assets/case-study/image-14.webp').then(()=>{const start=()=>{warmNext();warmNext();};if('requestIdleCallback' in window)requestIdleCallback(start,{timeout:1000});else requestAnimationFrame(start);}).catch(()=>{});
+
 })();
 </script></body></html>
