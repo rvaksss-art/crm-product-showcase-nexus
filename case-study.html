@@ -285,16 +285,122 @@ html[data-theme=light] .project-option{color:#286e55!important}html[data-theme=l
    <div class="screen-route" role="group" aria-label="${a?"Этапы развития продукта":"Этапы обработки запроса"}">${e}</div>`}const screenSets={3:[["record","Карточка запроса"],["quote","Вкладка расчётов"],["deal","Карточка сделки"]],5:[["workspace","Рабочее пространство"],["pilot","Список задач для проверки сценариев"],["iteration","Канбан-доска"]]};function mountAtlas(A,a){const t=document.createElement("section");t.className="atlas-scene scene-"+a,a!==2&&a!==4&&t.classList.add("studio-stage"),a!==4&&t.classList.add("optical-scene");const f=["SYSTEM MAP","FRAGMENTS","DISCOVERY","PRODUCT FLOW","DELIVERY","PILOT EDITION"];if(t.innerHTML='<div class="atlas-heading"><span class="atlas-kicker">'+num(a)+" / "+f[a]+"</span><strong>"+sceneTitles[a]+'</strong></div><div class="atlas-field">'+(artBuilders[a]?artBuilders[a]():productView(a))+'</div><div class="atlas-readout" aria-live="polite" aria-atomic="true"><i aria-hidden="true"></i><div class="context-copy"><strong class="context-label"></strong><p></p></div></div>',A.querySelector(".art").append(t),a===3){const d=document.createElement(analyticalExampleUrl?"a":"button");if(d.className="analytical-example",d.innerHTML='<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5zm-9 9 9 5 9-5m-18 5 9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>Артефакты</span><span aria-hidden="true">↗</span>',analyticalExampleUrl)d.href=analyticalExampleUrl,d.target="_blank",d.rel="noopener";else{d.type="button",d.setAttribute("aria-disabled","true"),d.title="Реальный аналитический кейс — ссылка готовится",d.setAttribute("aria-describedby","artifact-status");const s=document.createElement("span");s.id="artifact-status",s.className="sr",s.textContent="Ссылка на аналитический кейс готовится.",t.append(s)}t.querySelector(".atlas-heading").append(d)}a!==4&&t.querySelector(".atlas-heading").insertAdjacentHTML("beforeend",'<small class="swipe-cue" aria-hidden="true"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18M7 8l-4 4 4 4m10-8 4 4-4 4"/></svg> Свайп</span><b></b></small>');const e=[...t.querySelectorAll("[data-choice]")],r=t.querySelector(".atlas-readout p"),I=[...t.querySelectorAll(".screen-panel")],n=t.querySelector(".rupture-hit");if(n){const d=()=>{reduce.matches||n.classList.add("firing")};n.addEventListener("pointerenter",s=>{s.pointerType==="mouse"&&d()}),n.addEventListener("click",d),n.addEventListener("keydown",s=>{(s.key==="Enter"||s.key===" ")&&(s.preventDefault(),d())}),n.addEventListener("animationend",s=>{s.animationName==="cleave"&&n.classList.remove("firing")})}const i=t.querySelector(".atlas-shot");let g=-1,l=null,M,c=null;const Q=()=>{c?.cancel(),c=null};i&&reduce.addEventListener("change",()=>{reduce.matches&&Q()});function H(d){const s=getComputedStyle(i).transform;Q(),c=i.animate([{transform:s==="none"?"rotateY(0deg)":s},{transform:"rotateY("+d*5.2+"deg) rotateX(-1.4deg) scale(.991)",offset:.37},{transform:"rotateY(0deg) rotateX(0deg) scale(1)"}],{duration:840,easing:"cubic-bezier(.36,.05,.22,1)"})}function u(d,s=!1){if(g!==d){const E=g;if(g=d,e.forEach((q,B)=>q.setAttribute("aria-pressed",String(B===d))),t.querySelectorAll("[data-edge]").forEach(q=>q.classList.toggle("lit",+q.dataset.edge===d)),t.querySelector(".context-label").textContent=sceneLabels[a][d],r.textContent=sceneNotes[a][d],s&&!reduce.matches){const q=t.querySelector(".context-copy");q.getAnimations().forEach(B=>B.cancel()),q.animate([{opacity:.55},{opacity:1}],{duration:380,easing:"ease-out"})}const Z=t.querySelector(".swipe-cue b");Z&&(Z.textContent=num(d)+" / "+String(e.length).padStart(2,"0"));const z=e[d].querySelector("[data-dock]");if(z&&t.style.setProperty("--reading",z.getAttribute("fill")),i){I.forEach((k,m)=>{k.classList.toggle("screen-current",m===d),k.setAttribute("aria-hidden",String(m!==d))}),s&&E>=0&&!reduce.matches?H(Math.sign(d-E)):Q();const q=I[d],B=()=>{g===d&&q.naturalHeight&&t.style.setProperty("--aspect",q.naturalWidth/q.naturalHeight)};q.complete&&q.naturalHeight?B():q.addEventListener("load",B,{once:!0})}}}i&&(i.onclick=()=>{const d=dialog.querySelector("img"),s=I[g];d.src=s.src,d.alt=s.alt,dialog.showModal()},i.onpointermove=d=>{if(d.pointerType!=="mouse"||reduce.matches)return;const s=i.getBoundingClientRect();i.style.setProperty("--tilt-x",((d.clientX-s.left)/s.width-.5)*3+"deg"),i.style.setProperty("--tilt-y",(.5-(d.clientY-s.top)/s.height)*2+"deg")},i.onpointerleave=()=>{i.style.removeProperty("--tilt-x"),i.style.removeProperty("--tilt-y")}),e.forEach((d,s)=>{const E=()=>{clearTimeout(M),u(s,!0),flyTo(d,a),t.classList.add("inspecting")};d.onpointerenter=Z=>{Z.pointerType!=="touch"&&E()},d.onfocus=E,t.classList.contains("studio-stage")&&(d.onpointerleave=Z=>{Z.pointerType!=="touch"&&(clearTimeout(M),M=setTimeout(()=>{owner===d&&C()},170))}),d.onclick=()=>{E(),l=s,i&&!reduce.matches&&c?.playState!=="running"&&H(s===0?-1:1)},d.tagName.toLowerCase()==="g"&&(d.onkeydown=Z=>{(Z.key==="Enter"||Z.key===" ")&&(Z.preventDefault(),E(),l=s)})});function C(){clearTimeout(M),owner&&t.contains(owner)&&returnBeacon(owner,a),l!==null&&u(l),t.classList.toggle("inspecting",l!==null)}t.onpointerleave=d=>{d.pointerType!=="touch"&&C()},t.onfocusout=d=>{!t.contains(d.relatedTarget)&&!t.matches(":hover")&&C()};function v(){n?.classList.remove("firing"),Q(),clearTimeout(M),l=null,t.classList.remove("inspecting"),u(0)}function y(d){const s=Math.max(0,Math.min(e.length-1,g+d));if(s===g)return;clearTimeout(M);const E=dockingPoint(e[g]);E.color=e[g].querySelector("[data-dock]").getAttribute("fill"),l=s,u(s,!0),t.classList.add("inspecting"),flyTo(e[s],a,E)}return v(),{root:t,reset:v,stepChoice:y}}const cards=chapters.map(([A,,a,t,f],e)=>{const r=document.createElement("article");r.className="card",r.innerHTML=`<span class="case-rim" aria-hidden="true"></span><div class="art art${e}"></div><div class="card-face" aria-hidden="true"><div class="coverArt"></div>
   <span class="cardNo">${num(e)} / 06</span><span class="cardLabel">${A}<small>${["Границы MVP","Ключевые проблемы","Сценарии команды","Логика CRM","Проверка и запуск","Пилот команды"][e]}</small></span></div>
   <div class="cardCopy"><div class="micro">${num(e)} / ${A}</div><h3>${a}</h3><p>${t}</p><small class="tags">${f.split(/ · | → /).map((l,M)=>"<span>"+(["Отрасль","Аудитория","Команда"][M]&&e===0?"<b>"+["Отрасль","Аудитория","Команда"][M]+"</b>":"")+l+"</span>").join("")}</small></div>
-  <button class="pick" aria-label="Открыть главу ${A}"></button>`,$("#cards").append(r);const I=r.querySelector(".art"),n=r.querySelector(".pick");r.querySelector(".coverArt").dataset.galleryCover=covers[e],n.onclick=()=>jump(e);const i=document.createElement("a");i.className="chapterlink",i.href="#"+A.toLowerCase(),i.innerHTML=`<img class="route-peak" decoding="async" data-gallery-src="${routeArt.peaks[e]}" alt=""><span class="route-title">${A}</span><svg class="peak-line" viewBox="0 0 100 13" preserveAspectRatio="none" aria-hidden="true"><path d="M0 10C20 10 30 2 50 2S80 10 100 10"/><defs><clipPath id="route-progress-${e}"><rect class="route-progress-mask" width="100" height="13"/></clipPath></defs><g clip-path="url(#route-progress-${e})"><path class="completed" d="M0 10C20 10 30 2 50 2S80 10 100 10"/><path class="route-glimmer" pathLength="100" d="M0 10C20 10 30 2 50 2S80 10 100 10"/></g></svg><i class="peak-dot" aria-hidden="true"></i>`,i.onclick=l=>{l.preventDefault(),jump(e,!0)},nav.insertBefore(i,$(".controls"));const g=mountAtlas(r,e);return{resetStage:g.reset,stepChoice:g.stepChoice,root:g.root,face:r.querySelector(".card-face"),el:r,pick:n,link:i,art:I,copy:r.querySelector(".cardCopy"),capt:r.querySelector(".cardLabel"),no:r.querySelector(".cardNo")}}),clamp=(A,a=0,t=1)=>Math.min(t,Math.max(a,A)),mix=(A,a,t)=>A+(a-A)*t,ease=A=>(A=clamp(A),A*A*(3-2*A));let displayY=scrollY,geo,frame=0,current=-1,last="",lastActive=-2;function measure(){const finalProgress=finalScrollProgress;const A=geo&&current>=0&&!transitionBusy&&!wheelMotion&&!finalProgress?current:null;let a=stage.clientWidth,t=stage.clientHeight,f=a<=680,e=clamp(a*.046,16,90),r=f?7:clamp(a*.009,8,20),I=f?3:6,n=(a-2*e-r*(I-1))/I,i=f?Math.min(t*.155,n*1.13):Math.min(t*.29,n*1.44),g=f?Math.max(40,t*.07):Math.max(40,t*.09),l=Math.max(f?163:150,(t-(f?2*i+r:i))*.54),M=f?a-2*e:Math.min(a-2*e,1490),c=f?Math.min(t*.68,t-Math.max(nav.offsetTop+nav.offsetHeight+9,148)-48):Math.min(Math.max(t*.57,365),650,t-Math.max(nav.offsetTop+nav.offsetHeight+9,t<500?116:190)-45);geo={W:a,H:t,m:f,margin:e,gap:r,cols:I,w:n,h:i,baseY:l,ew:M,eh:c,ex:(a-M)/2,ey:Math.max(nav.offsetTop+nav.offsetHeight+9,f?148:t<500?116:190,(t-c)*.48),top:film.offsetTop,unit:(film.offsetHeight-t)/6.65,viewportHeight:innerHeight},A!==null&&(window.scrollTo({top:geo.top+geo.unit*(A+.85),behavior:"instant"}),displayY=scrollY),finalProgress>0&&(window.scrollTo({top:geo.top+geo.unit*5.85+finalProgress*(geo.unit*.8+geo.H),behavior:"instant"}),displayY=scrollY),last="",cards.forEach(Q=>Q.renderKey=null),requestDraw()}const resultContinue=document.querySelector(".result-continue");let chapterReveal=null,chapterRevision=0,journeyStarted=!1,transitionBusy=!1;
-let chapterTarget=null,nativeScrollSession=null,nativeScrollTimer=0;const routeFlight=document.createElement("div");routeFlight.className="route-flight",routeFlight.setAttribute("aria-hidden","true"),document.body.append(routeFlight);let flightAnimations=[];function cancelFlight(){flightAnimations.forEach(A=>A.cancel()),flightAnimations=[],routeFlight.hidden=!0,chapterReveal?.cancel(),cards.forEach(A=>{A.el.classList.contains("route-entering")&&(A.el.classList.remove("route-entering"),A.el.style.opacity="1")})}routeFlight.hidden=!0;function fitCardCopy(A){const a=A.copy,t=a.querySelector("h3"),f=a.querySelector("p");t.style.fontSize="",f.style.fontSize="";let e=parseFloat(getComputedStyle(t).fontSize),r=parseFloat(getComputedStyle(f).fontSize);for(let I=0;I<42;I++){const n=a.getBoundingClientRect(),i=[...a.children].map(l=>l.getBoundingClientRect());if(!(i.some(l=>l.bottom>n.bottom-2||l.top<n.top-1)||i.some((l,M)=>M&&l.top<i[M-1].bottom-1)))break;r>12.1&&(r=Math.max(12,r*.96),f.style.fontSize=r+"px"),e>18.1&&(e=Math.max(18,e*.975),t.style.fontSize=e+"px")}}async function jump(A,a=!1,force=!1){const returningFromFinale=!force&&!nativeScrollSession&&A<6&&finale.active();if(returningFromFinale&&!(await finale.leave()))return;cancelWheel(),glide=null,wheelGoal=null,A=clamp(A,-1,6);const t=A<0?geo.top:A===6?$(".ending").offsetTop:geo.top+geo.unit*(A+.85);if(!force&&!transitionBusy&&A===current&&A>=0&&Math.abs(scrollY-t)<2)return;if(nativeScrollSession){nativeScrollSession.settling=true;nativeScrollSession.settleY=scrollY;clearTimeout(nativeScrollTimer)}chapterTarget=A;a&&A>=0&&A<6&&history.replaceState(null,"","#"+chapters[A][0].toLowerCase());const f=++chapterRevision,e=$("#cards"),r=getComputedStyle(e).opacity;cancelFlight(),transitionBusy=!0;try{if(!reduce.matches&&!returningFromFinale&&(chapterReveal=e.animate([{opacity:r},{opacity:0}],{duration:160,easing:"ease-out",fill:"forwards"}),flightAnimations.push(chapterReveal),await chapterReveal.finished,f!==chapterRevision))return;if(e.style.opacity="0",chapterReveal?.cancel(),A>=0&&A<6&&(journeyStarted=!0),cancelNativeScroll(),window.scrollTo({top:t,behavior:"instant"}),displayY=scrollY,last="",cards.forEach(u=>u.renderKey=null),frame&&cancelAnimationFrame(frame),draw(),A>=0&&A<6&&fitCardCopy(cards[A]),A<0||A>=6||reduce.matches||returningFromFinale){e.style.opacity="1";return}const I=cards[A].el,n=cards[A].link.querySelector(".route-peak").getBoundingClientRect(),i=I.getBoundingClientRect(),g=n.left+n.width*.5,l=n.top+n.height*.62,M=i.left+i.width*.5,c=i.top+i.height*.5;if(I.classList.add("route-entering"),I.style.opacity=".001",e.style.opacity="1",routeFlight.hidden=!1,chapterReveal=routeFlight.animate([{transform:`translate3d(${g}px,${l}px,0) scale(.65)`,opacity:0},{transform:`translate3d(${g}px,${l}px,0) scale(1)`,opacity:1,offset:.12},{transform:`translate3d(${g+(M-g)*.64}px,${l+(c-l)*.26}px,0) scale(1.1)`,opacity:1,offset:.5},{transform:`translate3d(${M}px,${c}px,0) scale(1.4)`,opacity:1}],{duration:480,easing:"cubic-bezier(.3,0,.22,1)",fill:"forwards"}),flightAnimations.push(chapterReveal),await chapterReveal.finished,f!==chapterRevision)return;const Q=I.style.transform==="none"?"":I.style.transform;chapterReveal=I.animate([{transform:Q+" scale(.018)",transformOrigin:"center",opacity:0},{transform:Q+" scale(1)",transformOrigin:"center",opacity:1}],{duration:780,easing:"cubic-bezier(.4,0,.2,1)",fill:"both"}),flightAnimations.push(chapterReveal);const H=routeFlight.animate([{opacity:1},{opacity:0}],{duration:170,fill:"forwards"});flightAnimations.push(H),await chapterReveal.finished}catch(I){I.name!=="AbortError"&&console.error(I)}finally{f===chapterRevision&&(cancelFlight(),e.style.opacity="1",transitionBusy=!1,chapterTarget=null)}}let previousFrameTime=0,glide=null,wheelMotion=null;// Avoid rewriting unchanged presentation values while preserving the scroll timeline.
+  <button class="pick" aria-label="Открыть главу ${A}"></button>`,$("#cards").append(r);const I=r.querySelector(".art"),n=r.querySelector(".pick");r.querySelector(".coverArt").dataset.galleryCover=covers[e],n.onclick=()=>jump(e);const i=document.createElement("a");i.className="chapterlink",i.href="#"+A.toLowerCase(),i.innerHTML=`<img class="route-peak" decoding="async" data-gallery-src="${routeArt.peaks[e]}" alt=""><span class="route-title">${A}</span><svg class="peak-line" viewBox="0 0 100 13" preserveAspectRatio="none" aria-hidden="true"><path d="M0 10C20 10 30 2 50 2S80 10 100 10"/><defs><clipPath id="route-progress-${e}"><rect class="route-progress-mask" width="100" height="13"/></clipPath></defs><g clip-path="url(#route-progress-${e})"><path class="completed" d="M0 10C20 10 30 2 50 2S80 10 100 10"/><path class="route-glimmer" pathLength="100" d="M0 10C20 10 30 2 50 2S80 10 100 10"/></g></svg><i class="peak-dot" aria-hidden="true"></i>`,i.onclick=l=>{l.preventDefault(),jump(e,!0)},nav.insertBefore(i,$(".controls"));const g=mountAtlas(r,e);return{resetStage:g.reset,stepChoice:g.stepChoice,root:g.root,face:r.querySelector(".card-face"),el:r,pick:n,link:i,art:I,copy:r.querySelector(".cardCopy"),capt:r.querySelector(".cardLabel"),no:r.querySelector(".cardNo")}}),clamp=(A,a=0,t=1)=>Math.min(t,Math.max(a,A)),mix=(A,a,t)=>A+(a-A)*t,ease=A=>(A=clamp(A),A*A*(3-2*A));let displayY=scrollY,geo,frame=0,current=-1,last="",lastActive=-2;function measure(){const finalProgress=finalScrollProgress;const A=geo&&current>=0&&!transitionBusy&&!wheelMotion&&!nativeScrollSession&&!finalProgress?current:null;let a=stage.clientWidth,t=stage.clientHeight,f=a<=680,e=clamp(a*.046,16,90),r=f?7:clamp(a*.009,8,20),I=f?3:6,n=(a-2*e-r*(I-1))/I,i=f?Math.min(t*.155,n*1.13):Math.min(t*.29,n*1.44),g=f?Math.max(40,t*.07):Math.max(40,t*.09),l=Math.max(f?163:150,(t-(f?2*i+r:i))*.54),M=f?a-2*e:Math.min(a-2*e,1490),c=f?Math.min(t*.68,t-Math.max(nav.offsetTop+nav.offsetHeight+9,148)-48):Math.min(Math.max(t*.57,365),650,t-Math.max(nav.offsetTop+nav.offsetHeight+9,t<500?116:190)-45);geo={W:a,H:t,m:f,margin:e,gap:r,cols:I,w:n,h:i,baseY:l,ew:M,eh:c,ex:(a-M)/2,ey:Math.max(nav.offsetTop+nav.offsetHeight+9,f?148:t<500?116:190,(t-c)*.48),top:film.offsetTop,unit:(film.offsetHeight-t)/6.65,viewportHeight:innerHeight},A!==null&&(setRouteScroll(geo.top+geo.unit*(A+.85)),displayY=scrollY),finalProgress>0&&(setRouteScroll(geo.top+geo.unit*5.85+finalProgress*(geo.unit*.8+geo.H)),displayY=scrollY),last="",cards.forEach(Q=>Q.renderKey=null),requestDraw()}const resultContinue=document.querySelector(".result-continue");let chapterRevision=0,journeyStarted=!1,transitionBusy=!1;
+let routeTarget=null,nativeScrollSession=null,nativeScrollTimer=0,routeScrollY=scrollY;
+function setRouteScroll(top){
+ window.scrollTo({top,behavior:"instant"});
+ routeScrollY=scrollY;
+}
+const routeFlight=document.createElement("div");
+routeFlight.className="route-flight";
+routeFlight.setAttribute("aria-hidden","true");
+document.body.append(routeFlight);
+routeFlight.hidden=true;
+let flightAnimations=[];
+function holdFlight(){
+ routeFlight.hidden=true;
+ flightAnimations=flightAnimations.filter(animation=>{
+  if(animation.effect.target.classList.contains("route-entering")){
+   animation.pause();
+   return true;
+  }
+  animation.cancel();
+  return false;
+ });
+}
+function cancelFlight(){
+ flightAnimations.forEach(animation=>animation.cancel());
+ flightAnimations=[];
+ routeFlight.hidden=true;
+ cards.forEach(({el})=>{
+  if(el.classList.contains("route-entering")){
+   el.classList.remove("route-entering");
+   el.style.opacity="1";
+  }
+ });
+}
+function fitCardCopy(A){const a=A.copy,t=a.querySelector("h3"),f=a.querySelector("p");t.style.fontSize="",f.style.fontSize="";let e=parseFloat(getComputedStyle(t).fontSize),r=parseFloat(getComputedStyle(f).fontSize);for(let I=0;I<42;I++){const n=a.getBoundingClientRect(),i=[...a.children].map(l=>l.getBoundingClientRect());if(!(i.some(l=>l.bottom>n.bottom-2||l.top<n.top-1)||i.some((l,M)=>M&&l.top<i[M-1].bottom-1)))break;r>12.1&&(r=Math.max(12,r*.96),f.style.fontSize=r+"px"),e>18.1&&(e=Math.max(18,e*.975),t.style.fontSize=e+"px")}}async function jump(index, hash=false, force=false){
+ const fromFinale=!force&&!nativeScrollSession&&index===5&&finale.active();
+ index=clamp(index,-1,6);
+ const stop=index+2;
+ const y=routeStops()[stop];
+ if(!force&&!transitionBusy&&!nativeScrollSession&&index===current&&index>=0&&Math.abs(scrollY-y)<2)return;
+ if(hash&&index>=0&&index<6)history.replaceState(null,'','#'+chapters[index][0].toLowerCase());
+ const revision=++chapterRevision,host=$("#cards"),opacity=getComputedStyle(host).opacity;
+ cancelWheel();
+ glide=null;
+ routeTarget=stop;
+ holdFlight();
+ transitionBusy=true;
+ try{
+  if(!reduce.matches&&!fromFinale){
+   const exit=host.animate([{opacity},{opacity:0}],{duration:160,easing:"ease-out",fill:"forwards"});
+   flightAnimations.push(exit);
+   await exit.finished;
+   if(revision!==chapterRevision)return;
+  }
+  host.style.opacity="0";
+  cancelFlight();
+  if(index>=0&&index<6){
+   prepareChapterMedia();
+   journeyStarted=true;
+  }
+  cancelNativeScroll();
+  setRouteScroll(routeStops()[stop]);
+  finale.sync();
+  displayY=scrollY;
+  last="";
+  cards.forEach(card=>card.renderKey=null);
+  if(frame)cancelAnimationFrame(frame);
+  draw();
+  if(index>=0&&index<6)fitCardCopy(cards[index]);
+  if(index<0||index>=6||reduce.matches||fromFinale)return;
+  const card=cards[index].el;
+  const source=cards[index].link.querySelector(".route-peak").getBoundingClientRect();
+  const target=card.getBoundingClientRect();
+  const sx=source.left+source.width*.5,sy=source.top+source.height*.62;
+  const tx=target.left+target.width*.5,ty=target.top+target.height*.5;
+  card.classList.add("route-entering");
+  card.style.opacity=".001";
+  host.style.opacity="1";
+  routeFlight.hidden=false;
+  const flight=routeFlight.animate([
+   {transform:`translate3d(${sx}px,${sy}px,0) scale(.65)`,opacity:0},
+   {transform:`translate3d(${sx}px,${sy}px,0) scale(1)`,opacity:1,offset:.12},
+   {transform:`translate3d(${sx+(tx-sx)*.64}px,${sy+(ty-sy)*.26}px,0) scale(1.1)`,opacity:1,offset:.5},
+   {transform:`translate3d(${tx}px,${ty}px,0) scale(1.4)`,opacity:1}
+  ],{duration:480,easing:"cubic-bezier(.3,0,.22,1)",fill:"forwards"});
+  flightAnimations.push(flight);
+  await flight.finished;
+  if(revision!==chapterRevision)return;
+  const base=card.style.transform==="none"?"":card.style.transform;
+  const reveal=card.animate([
+   {transform:base+" scale(.018)",transformOrigin:"center",opacity:0},
+   {transform:base+" scale(1)",transformOrigin:"center",opacity:1}
+  ],{duration:780,easing:"cubic-bezier(.4,0,.2,1)",fill:"both"});
+  flightAnimations.push(reveal,routeFlight.animate([{opacity:1},{opacity:0}],{duration:170,fill:"forwards"}));
+  await reveal.finished;
+ }catch(error){
+  if(error.name!=="AbortError")console.error(error);
+ }finally{
+  if(revision===chapterRevision){
+   cancelFlight();
+   host.style.opacity="1";
+   transitionBusy=false;
+   routeTarget=null;
+  }
+ }
+}
+let previousFrameTime=0,glide=null,wheelMotion=null;// Avoid rewriting unchanged presentation values while preserving the scroll timeline.
 let finalScrollProgress=0;
 function drawStyle(element, property, value) {
   value = String(value);
   if (element.style[property] !== value) element.style[property] = value;
 }
-function draw(){if(frame=0,!geo)return;const A=performance.now(),a=Math.min(40,Math.max(1,A-previousFrameTime));previousFrameTime=A;let{W:t,H:f,m:e,margin:r,gap:I,cols:n,w:i,h:g,baseY:l,ew:M,eh:c,ex:Q,ey:H,top:u,unit:C}=geo,v=wheelMotion||reduce.matches?scrollY:displayY+(scrollY-displayY)*(1-Math.exp(-a/78));if(nativeScrollSession)v=nativeScrollSession.renderY;if(glide){const B=clamp((A-glide.start)/920);reduce.matches||B===1||Math.abs(scrollY-glide.to)>2?(glide=null,v=scrollY):(v=mix(glide.from,glide.to,B*B*(3-2*B)),requestDraw())}!glide&&Math.abs(v-scrollY)<.5&&(v=scrollY),displayY=v,v!==scrollY&&!nativeScrollSession&&requestDraw();if(innerHeight===geo.viewportHeight)finalScrollProgress=clamp((scrollY-u-C*5.85)/(C*.8+f));let y=(v-u)/C-.35;
+function draw(){if(frame=0,!geo)return;const A=performance.now(),a=Math.min(40,Math.max(1,A-previousFrameTime));previousFrameTime=A;let{W:t,H:f,m:e,margin:r,gap:I,cols:n,w:i,h:g,baseY:l,ew:M,eh:c,ex:Q,ey:H,top:u,unit:C}=geo,v=wheelMotion||reduce.matches?scrollY:displayY+(scrollY-displayY)*(1-Math.exp(-a/78));if(nativeScrollSession)v=nativeScrollSession.renderY;if(glide){const B=clamp((A-glide.start)/920);reduce.matches||B===1||Math.abs(scrollY-glide.to)>2?(glide=null,v=scrollY):(v=mix(glide.from,glide.to,B*B*(3-2*B)),requestDraw())}!glide&&Math.abs(v-scrollY)<.5&&(v=scrollY),displayY=v,v!==scrollY&&!nativeScrollSession&&requestDraw();const layoutY=nativeScrollSession?.renderY??scrollY;
+if(innerHeight===geo.viewportHeight)finalScrollProgress=clamp((layoutY-u-C*5.85)/(C*.8+f));let y=(v-u)/C-.35;
 // Keep Result beneath the final page while that page enters in normal flow.
-stage.style.transform=scrollY>u+C*6.65?"translateY("+clamp(scrollY-u-C*6.65,0,f)+"px)":"none";
+stage.style.transform=layoutY>u+C*6.65?"translateY("+clamp(layoutY-u-C*6.65,0,f)+"px)":"none";
 if(y>5.5)y=5.5;const d=[v,t,f,reduce.matches].join("/");if(d===last)return;last=d;const s=clamp(v/u);document.body.classList.toggle("paper",v>u-55&&v<u+C*6.65+f-40),drawStyle($(".heroText"),"transform","none"),drawStyle($(".heroText"),"opacity",1-ease(s*1.25)),drawStyle($(".heroPhoto"),"transform",reduce.matches?"none":"translateY("+s*f*.19+"px) scale("+(1+.14*s)+")");let E=y>=0&&y<6?Math.floor(y):-1;owner&&E!==current&&clearBeacon(),current>=0&&current!==E&&cards[current].resetStage(),current=E;let Z=y-Math.floor(y),z=E<0?0:Math.min(ease(Z/.48),ease((1-Z)/.48));reduce.matches&&(z=E<0?0:1);let q=y<.28||y>5.78?1-z:0;drawStyle($(".galleryIntro"),"opacity",1),drawStyle($(".galleryIntro"),"transform","none"),lastActive!==E&&($(".indexnum").textContent=E<0?"INDEX / 06":num(E)+" / 06"),cards.forEach(({el:B,pick:k,link:m,art:p,copy:W,capt:X,no:K,root:L,face:x},V)=>{let o=V===E?z:0,h=V===E?0:z,Y=r+V%n*(i+I),D=Math.floor(V/n),J=e?0:[3,-4,1,-5,2,-3][V],O=l+D*(g+I)+J,P=mix(i,M,o),R=mix(g,c,o),N=mix(Y,Q,o),j=mix(O,H,o);drawStyle(B,"visibility",journeyStarted&&y>=0&&o===0?"hidden":"visible");const S=[o,h,v>u-f*.3&&v<u+C*6.6,E,y>=6].join("/");if(cards[V].renderKey===S)return;cards[V].renderKey=S;const F=!0;const resting = h === 0 && (o < 0.00001 || o > 0.99999);
 B.toggleAttribute('data-resting', resting);
 if (resting) {
@@ -312,7 +418,7 @@ if (resting) {
   B.style.top = '0px';
   B.style.width=M+"px",B.style.height=c+"px",B.style.transformOrigin="0 0",B.style.transform="translate3d("+N+"px,"+j+"px,0) perspective(1100px) rotateY("+(!e&&!reduce.matches?(V-2.5)*-1.4*(1-o):0)+"deg) scale("+P/M*(1-.065*h)+","+R/c*(1-.065*h)+")";const w=mix(12,!e&&t>=1024&&V===2?18:12,o);B.style.borderRadius=w*M/P+"px / "+w*c/R+"px",x.style.width=P+"px",x.style.height=R+"px",x.style.transform="scale("+M/P+","+c/R+")";
 }
-B.style.zIndex=o>0?8:1;const b=ease((o-.28)/.68);B.style.setProperty("--t",o),B.style.setProperty("--scene-mix",b),B.classList.toggle("open",o>0),L.inert!==o<=.91&&(L.inert=o<=.91),B.style.opacity=B.classList.contains("route-entering")?.001:1-h*(e?.4:.38),p.style.width=(e||!F?100:t>=1024?60:46)+"%",p.style.height=(e&&F?f<630?41:49:100)+"%",p.style.top="0",W.style.opacity=b,W.style.visibility=b>0?"visible":"hidden",X.style.opacity=K.style.opacity=1-ease(o/.36),k.style.display=o>.62?"none":"",k.tabIndex=v>u-f*.3&&v<u+C*6.6&&o<.62?0:-1,(lastActive!==E||cards[V].pastEnd!==y>=6)&&(cards[V].pastEnd=y>=6,m.style.setProperty("--fill",E>=0?V<E?1:0:y>=6?1:0),m.setAttribute("aria-current",String(V===E)),m.classList.toggle("visited",E>=0?V<E:y>=6))}),resultContinue.classList.toggle("is-visible",E===5&&z>.58),lastActive!==E&&($("#announce").textContent=E>=0?"Глава "+num(E)+". "+chapters[E][0]:"",lastActive=E)}let resizeFrame=0;function requestDraw(){!frame&&!wheelMotion&&(frame=requestAnimationFrame(draw))}window.addEventListener("scroll",requestDraw,{passive:!0}),window.addEventListener("resize",()=>{if(resizeFrame)return;resizeFrame=requestAnimationFrame(()=>{resizeFrame=0;measure();requestAnimationFrame(()=>{current>=0&&!transitionBusy&&fitCardCopy(cards[current])})})}),reduce.addEventListener("change",measure),resultContinue.onclick=()=>scrollOneStop($(".ending").offsetTop),$("#prev").onclick=()=>jump(current<0?scrollY>geo.top+geo.unit?5:-1:current-1),$("#next").onclick=()=>jump(current<0?scrollY>geo.top+geo.unit?6:0:current+1);function restore(){let A=chapters.findIndex(a=>"#"+a[0].toLowerCase()===location.hash);A>=0&&(window.scrollTo({top:geo.top+geo.unit*(.85+A),behavior:"instant"}),displayY=scrollY,requestDraw())}measure(),restore(),window.addEventListener("hashchange",restore),document.addEventListener("keydown", event => {
+B.style.zIndex=o>0?8:1;const b=ease((o-.28)/.68);B.style.setProperty("--t",o),B.style.setProperty("--scene-mix",b),B.classList.toggle("open",o>0),L.inert!==o<=.91&&(L.inert=o<=.91),B.style.opacity=B.classList.contains("route-entering")?.001:1-h*(e?.4:.38),p.style.width=(e||!F?100:t>=1024?60:46)+"%",p.style.height=(e&&F?f<630?41:49:100)+"%",p.style.top="0",W.style.opacity=b,W.style.visibility=b>0?"visible":"hidden",X.style.opacity=K.style.opacity=1-ease(o/.36),k.style.display=o>.62?"none":"",k.tabIndex=v>u-f*.3&&v<u+C*6.6&&o<.62?0:-1,(lastActive!==E||cards[V].pastEnd!==y>=6)&&(cards[V].pastEnd=y>=6,m.style.setProperty("--fill",E>=0?V<E?1:0:y>=6?1:0),m.setAttribute("aria-current",String(V===E)),m.classList.toggle("visited",E>=0?V<E:y>=6))}),resultContinue.classList.toggle("is-visible",E===5&&z>.58),lastActive!==E&&($("#announce").textContent=E>=0?"Глава "+num(E)+". "+chapters[E][0]:"",lastActive=E)}let resizeFrame=0;function requestDraw(){!frame&&!wheelMotion&&(frame=requestAnimationFrame(draw))}window.addEventListener("resize",()=>{if(resizeFrame)return;resizeFrame=requestAnimationFrame(()=>{resizeFrame=0;measure();requestAnimationFrame(()=>{current>=0&&!transitionBusy&&fitCardCopy(cards[current])})})}),reduce.addEventListener("change",measure),resultContinue.onclick=()=>scrollOneStop($(".ending").offsetTop),$("#prev").onclick=()=>stepRoute(-1),$("#next").onclick=()=>stepRoute(1);function restore(){let A=chapters.findIndex(a=>"#"+a[0].toLowerCase()===location.hash);A>=0&&(setRouteScroll(geo.top+geo.unit*(.85+A)),displayY=scrollY,requestDraw())}measure(),restore(),window.addEventListener("hashchange",restore),document.addEventListener("keydown", event => {
   if (dialog.open || event.altKey || event.ctrlKey || event.metaKey) return;
   const isSpace = event.code === "Space" || event.key === " ";
   const target=event.target instanceof Element?event.target:null;
@@ -324,10 +430,9 @@ B.style.zIndex=o>0?8:1;const b=ease((o-.28)/.68);B.style.setProperty("--t",o),B.
   // Space owns page navigation even when a route link or scene control has focus.
   if(isSpace)event.stopPropagation();
   if(event.repeat)return;
-  if(finale.key(forward,backward))return;
   stepRoute(forward?1:-1);
 },true);
-let wheelGoal=null,wheelTime=-1e3,wheelDirection=0;function cancelWheel(){wheelMotion&&(cancelAnimationFrame(wheelMotion.frame),wheelMotion=null)}// The endpoint uses the same stops as wheel, touch and keyboard navigation.
+let wheelTime=-1e3,wheelDirection=0;function cancelWheel(){wheelMotion&&(cancelAnimationFrame(wheelMotion.frame),wheelMotion=null)}// The endpoint uses the same stops as wheel, touch and keyboard navigation.
 const finale = (() => {
   const screen=document.querySelector('.ending');
   const demo=screen.querySelector('.endText .cta');
@@ -342,6 +447,7 @@ const finale = (() => {
   }
 
   function sync(){
+    if(nativeScrollSession||scrollY!==routeScrollY)return;
     const ready=scrollY>=endTop()-2;
     if(ready===launched)return;
     launched=ready;
@@ -363,119 +469,113 @@ const finale = (() => {
   }
   function endTop(){return geo.top+geo.unit*6.65+geo.H}
   function resultTop(){return geo.top+geo.unit*5.85}
-  function navigate(top){
-    const result=resultTop(),end=endTop();
-    if(top!==end && !(scrollY>result+2 && top<=result))return false;
-    // The previous chapter is the first stop when leaving the final page.
-    const target=top===geo.top?top:top===end?end:result;
-    cancelWheel();
-    const from=scrollY;
-    if(Math.abs(target-from)<1){sync();return true}
-    const motion={frame:0};wheelMotion=motion;
-    const start=performance.now();
-    const duration=reduce.matches?0:650*Math.min(1,Math.abs(target-from)/(end-result));
-    function step(now){
-      if(wheelMotion!==motion)return;
-      const t=duration?clamp((now-start)/duration):1;
-      window.scrollTo({top:mix(from,target,ease(t)),behavior:'instant'});
-      displayY=scrollY;
-      frame&&cancelAnimationFrame(frame);
-      draw();
-      if(t<1)motion.frame=requestAnimationFrame(step);
-      else{wheelMotion=null;requestDraw()}
-    }
-    motion.frame=requestAnimationFrame(step);
-    return true;
-  }
-  function wheel(event){
-    if(event.ctrlKey||dialog.open||Math.abs(event.deltaX)>Math.abs(event.deltaY)||!event.deltaY)return false;
-    const result=resultTop();
-    if(scrollY<result-2 || (scrollY<=result+2&&event.deltaY<0))return false;
-    event.preventDefault();
-    const now=performance.now(),direction=Math.sign(event.deltaY);
-    const same=now-wheelTime<160&&direction===wheelDirection;
-    wheelTime=now;wheelDirection=direction;
-    if(!same)navigate(direction>0?endTop():result);
-    return true;
-  }
   window.addEventListener('scroll',sync,{passive:true});
   new IntersectionObserver(sync,{threshold:[0,.97,1]}).observe(screen);
   reduce.addEventListener('change',()=>{if(reduce.matches&&launched){flight?.cancel();screen.dataset.finale='ready'}});
   screen.dataset.finale='approach';demo.inert=true;
   screen.querySelector('.reset').onclick=event=>{event.preventDefault();scrollOneStop(geo.top)};
-  return {navigate,wheel,
-    key:(forward,backward)=>{
-      if(scrollY<resultTop()-2 || (scrollY<=resultTop()+2&&backward))return false;
-      return navigate(forward?endTop():resultTop());
-    },
-    leave:()=>true,active:()=>scrollY>resultTop()+2};
+  return {sync,active:()=>scrollY>resultTop()+2};
 })();
 
-// A new gesture replaces the current transition. No deferred gesture queue.
-function interruptScrollTransition(){
-  cancelWheel();
-  ++chapterRevision;
-  if(transitionBusy){
-    cancelFlight();
-    $("#cards").style.opacity="1";
-    transitionBusy=false;
-  }
-  chapterTarget=null;
-  glide=null;
-  displayY=scrollY;
-  last="";
-  cards.forEach(card=>card.renderKey=null);
-  requestDraw();
-}
-// Only user-owned scroll positions are settled into the chapter transition path.
 function cancelNativeScroll(){
-  nativeScrollSession=null;
-  clearTimeout(nativeScrollTimer);
+ nativeScrollSession=null;
+ clearTimeout(nativeScrollTimer);
+}
+function nearestStop(stops){
+ return stops.reduce((best,y,index)=>Math.abs(y-scrollY)<Math.abs(stops[best]-scrollY)?index:best,0);
 }
 function stepRoute(direction){
-  const stops=routeStops();
-  const nearest=chapterTarget!==null?chapterTarget+2:
-    wheelMotion&&wheelGoal!==null?wheelGoal:
-    stops.reduce((best,stop,index)=>Math.abs(stop-scrollY)<Math.abs(stops[best]-scrollY)?index:best,0);
-  const next=clamp(nearest+direction,0,stops.length-1);
-  if(next===nearest)return;
-  wheelGoal=next;
-  scrollOneStop(stops[next]);
+ const stops=routeStops();
+ const from=routeTarget??nearestStop(stops);
+ const to=clamp(from+direction,0,stops.length-1);
+ if(to!==from)scrollOneStop(stops[to]);
 }
 function settleNativeScroll(){
-  if(!nativeScrollSession||nativeScrollSession.settling)return;
-  const stops=routeStops();
-  const index=stops.reduce((best,stop,i)=>Math.abs(stop-scrollY)<Math.abs(stops[best]-scrollY)?i:best,0);
-  if(index>=2&&index<stops.length-1){
-    prepareChapterMedia();
-    jump(index-2,false,true);
-  }else{cancelNativeScroll();scrollOneStop(stops[index]);}
+ if(!nativeScrollSession||nativeScrollSession.settling)return;
+ const stops=routeStops();
+ const index=nearestStop(stops);
+ nativeScrollSession.settling=true;
+ if(index>=2&&index<stops.length-1)jump(index-2,false,true);
+ else scrollOneStop(stops[index]);
 }
-window.addEventListener('scroll',()=>{
-  if(nativeScrollSession?.settling){
-    if(Math.abs(scrollY-nativeScrollSession.settleY)<=2)return;
-    nativeScrollSession.settling=false;
-    interruptScrollTransition();
-  }
-  // jump(), restore(), measure() and the existing scroll tween synchronously
-  // publish their own scroll position to displayY before their scroll event.
-  if(!nativeScrollSession&&Math.abs(scrollY-displayY)<=2)return;
-  if(!nativeScrollSession){
-    const renderY=current>=0?geo.top+geo.unit*(current+.85):Math.min(displayY,geo.top);
-    interruptScrollTransition();
-    nativeScrollSession={renderY};
-    clearBeacon();
-  }
-  if(!('onscrollend' in window)){
-    clearTimeout(nativeScrollTimer);
-    nativeScrollTimer=setTimeout(settleNativeScroll,140);
-  }
-  requestDraw();
+window.addEventListener("scroll",()=>{
+ if(scrollY===routeScrollY&&!nativeScrollSession)return;
+ if(!nativeScrollSession||nativeScrollSession.settling){
+  const renderY=nativeScrollSession?.renderY??displayY;
+  ++chapterRevision;
+  cancelWheel();
+  holdFlight();
+  transitionBusy=false;
+  routeTarget=null;
+  glide=null;
+  nativeScrollSession={renderY,settling:false};
+  clearBeacon();
+ }
+ if(!("onscrollend" in window)){
+  clearTimeout(nativeScrollTimer);
+  nativeScrollTimer=setTimeout(settleNativeScroll,180);
+ }
+ requestDraw();
 },{passive:true});
-window.addEventListener('scrollend',settleNativeScroll,{passive:true});
-// Some browsers deliver scrollbar pointer events; scrollend covers native UI drags.
-window.addEventListener('pointerup',()=>{if(nativeScrollSession)requestAnimationFrame(settleNativeScroll)},{passive:true});
-function scrollOneStop(A){if(finale.navigate(A))return;if(A>0)prepareChapterMedia();const a=chapters.findIndex((I,n)=>Math.abs(A-(geo.top+geo.unit*(n+.85)))<2);if(a>=0&&scrollY>=geo.top-2){jump(a);return}cancelNativeScroll();interruptScrollTransition();const t=scrollY,f=performance.now();if(Math.abs(A-t)<2)return;if(reduce.matches){window.scrollTo({top:A,behavior:"instant"});return}const e={frame:0};wheelMotion=e;function r(I){if(wheelMotion!==e)return;const n=clamp((I-f)/650),i=n*n*(3-2*n);window.scrollTo({top:mix(t,A,i),behavior:"instant"}),frame&&cancelAnimationFrame(frame),draw(),n<1&&!reduce.matches?e.frame=requestAnimationFrame(r):(window.scrollTo({top:A,behavior:"instant"}),displayY=scrollY,wheelMotion=null,requestDraw())}e.frame=requestAnimationFrame(r)}window.addEventListener("wheel",A=>{if(finale.wheel(A))return;if(A.ctrlKey||dialog.open||Math.abs(A.deltaX)>Math.abs(A.deltaY)||!A.deltaY)return;if(A.target.closest(".cardCopy")&&A.target.closest(".cardCopy").scrollHeight>A.target.closest(".cardCopy").clientHeight+2){let I=A.target.closest(".cardCopy");if(A.deltaY>0&&I.scrollTop+I.clientHeight<I.scrollHeight-1||A.deltaY<0&&I.scrollTop>0)return}A.preventDefault();let a=performance.now(),t=a-wheelTime;const direction=Math.sign(A.deltaY);const sameGesture=t<160&&direction===wheelDirection;wheelTime=a;wheelDirection=direction;if(sameGesture)return;glide=null,stepRoute(direction)},{passive:!1});let swipe=null;function routeStops(){return[0,geo.top,...chapters.map((A,a)=>geo.top+geo.unit*(a+.85)),$(".ending").offsetTop]}window.addEventListener("touchstart",A=>{if(wheelMotion){swipe=null;return}if(swipe=null,!geo||dialog.open||A.touches.length!==1)return;const a=A.touches[0],t=A.target.closest(".card.open");swipe={card:t&&cards.find(e=>e.el===t&&!e.root.inert),x:a.clientX,y:a.clientY,copy:A.target.closest(".cardCopy"),mode:null,done:!1}},{passive:!0}),window.addEventListener("touchmove",A=>{if(A.touches.length!==1||dialog.open){swipe=null;return}if(!swipe){wheelMotion&&A.cancelable&&A.preventDefault();return}const a=A.touches[0],t=a.clientX-swipe.x,f=a.clientY-swipe.y;if(!swipe.mode){const n=Math.abs(t),i=Math.abs(f);if(Math.max(n,i)<8||Math.max(n,i)<18&&Math.max(n,i)<Math.min(n,i)*1.22)return;const g=swipe.copy,l=g&&(f<0?g.scrollTop+g.clientHeight<g.scrollHeight-2:g.scrollTop>1);swipe.mode=n>i?swipe.card?"choice":"native":l?"native":"chapter"}if(swipe.mode==="native")return;if(A.cancelable&&A.preventDefault(),swipe.mode==="choice"){!swipe.done&&Math.abs(t)>=34&&(swipe.done=!0,swipe.card.root.inert||swipe.card.stepChoice(-Math.sign(t)));return}if(swipe.done||Math.abs(f)<36)return;swipe.done=!0;glide=null,stepRoute(-Math.sign(f))},{passive:!1}),window.addEventListener("touchend",()=>{swipe=null},{passive:!0}),window.addEventListener("touchcancel",()=>{swipe=null},{passive:!0});
+window.addEventListener("scrollend",settleNativeScroll,{passive:true});
+
+function scrollOneStop(to){
+ const stops=routeStops();
+ const stop=stops.findIndex(y=>Math.abs(y-to)<2);
+ const chapter=stop>=2&&stop<stops.length-1;
+ const slideBack=stop===stops.length-2&&finale.active()&&!nativeScrollSession;
+ if(chapter&&!slideBack){jump(stop-2);return}
+ if(to>0)prepareChapterMedia();
+ ++chapterRevision;
+ cancelWheel();
+ cancelNativeScroll();
+ cancelFlight();
+ $("#cards").style.opacity="1";
+ transitionBusy=false;
+ routeTarget=stop>=0?stop:null;
+ const from=scrollY,start=performance.now();
+ if(reduce.matches||Math.abs(to-from)<1){
+  setRouteScroll(to);
+  finale.sync();
+  displayY=scrollY;
+  routeTarget=null;
+  requestDraw();
+  return;
+ }
+ const motion={frame:0};
+ wheelMotion=motion;
+ function advance(now){
+  if(wheelMotion!==motion)return;
+  const t=clamp((now-start)/650);
+  setRouteScroll(mix(from,to,ease(t)));
+  if(frame)cancelAnimationFrame(frame);
+  draw();
+  if(t<1&&!reduce.matches)motion.frame=requestAnimationFrame(advance);
+  else{
+   setRouteScroll(to);
+   finale.sync();
+   displayY=scrollY;
+   wheelMotion=null;
+   routeTarget=null;
+   requestDraw();
+  }
+ }
+ motion.frame=requestAnimationFrame(advance);
+}
+window.addEventListener("wheel",event=>{
+ if(event.ctrlKey||dialog.open||Math.abs(event.deltaX)>Math.abs(event.deltaY)||!event.deltaY)return;
+ const copy=event.target.closest(".cardCopy");
+ if(copy&&copy.scrollHeight>copy.clientHeight+2){
+  if(event.deltaY>0&&copy.scrollTop+copy.clientHeight<copy.scrollHeight-1||event.deltaY<0&&copy.scrollTop>0)return;
+ }
+ event.preventDefault();
+ const now=performance.now(),direction=Math.sign(event.deltaY);
+ const sameGesture=now-wheelTime<160&&direction===wheelDirection;
+ wheelTime=now;
+ wheelDirection=direction;
+ if(!sameGesture)stepRoute(direction);
+},{passive:false});
+let swipe=null;function routeStops(){return[0,geo.top,...chapters.map((A,a)=>geo.top+geo.unit*(a+.85)),$(".ending").offsetTop]}window.addEventListener("touchstart",A=>{if(swipe=null,!geo||dialog.open||A.touches.length!==1)return;const a=A.touches[0],t=A.target.closest(".card.open");swipe={card:t&&cards.find(e=>e.el===t&&!e.root.inert),x:a.clientX,y:a.clientY,copy:A.target.closest(".cardCopy"),mode:null,done:!1}},{passive:!0}),window.addEventListener("touchmove",A=>{if(A.touches.length!==1||dialog.open){swipe=null;return}if(!swipe){wheelMotion&&A.cancelable&&A.preventDefault();return}const a=A.touches[0],t=a.clientX-swipe.x,f=a.clientY-swipe.y;if(!swipe.mode){const n=Math.abs(t),i=Math.abs(f);if(Math.max(n,i)<8||Math.max(n,i)<18&&Math.max(n,i)<Math.min(n,i)*1.22)return;const g=swipe.copy,l=g&&(f<0?g.scrollTop+g.clientHeight<g.scrollHeight-2:g.scrollTop>1);swipe.mode=n>i?swipe.card?"choice":"native":l?"native":"chapter"}if(swipe.mode==="native")return;if(A.cancelable&&A.preventDefault(),swipe.mode==="choice"){!swipe.done&&Math.abs(t)>=34&&(swipe.done=!0,swipe.card.root.inert||swipe.card.stepChoice(-Math.sign(t)));return}if(swipe.done||Math.abs(f)<36)return;swipe.done=!0;glide=null,stepRoute(-Math.sign(f))},{passive:!1}),window.addEventListener("touchend",()=>{swipe=null},{passive:!0}),window.addEventListener("touchcancel",()=>{swipe=null},{passive:!0});
 
 // Keep below-the-fold artwork out of the first-screen request queue.
 let chapterMediaPrepared=false;
